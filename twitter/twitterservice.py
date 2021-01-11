@@ -5,10 +5,6 @@ import tweepy
 from tweepy import TweepError
 
 
-def do_nothing():
-    pass
-
-
 class TwitterService:
 
     def __init__(self, config: {}):
@@ -16,18 +12,20 @@ class TwitterService:
         auth.set_access_token(config['access_token'], config['access_token_secret'])
 
         self.twitterAPI = tweepy.API(auth)
+        self.max_content_length = config['max_content_length']
 
-    def post(self, content: str, on_success: Callable) -> None:
-        logging.info('Posting tweet: ' + content)
+    def post(self, content: str, success: Callable, skip: Callable) -> None:
+        logging.info('Posting tweet...')
 
-        if len(content) >= 280:
-            logging.info('Skipping tweet, content length over 280 characters')
+        if len(content) > self.max_content_length:
+            logging.info(f'Skipping tweet, content length over {self.max_content_length} characters')
+            skip()
             return
 
         try:
             self.twitterAPI.update_status(content)
-            logging.info('Tweet posted')
-            on_success()
+            logging.info('Tweet posted successfully')
+            success()
         except TweepError as e:
             logging.error('Tweeting failed: ' + e.reason)
 

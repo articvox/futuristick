@@ -1,5 +1,5 @@
-# futuristick
-Twitter bot for tweeting news articles from RSS feeds.
+# FTwitter Bot
+Bot for tweeting news articles from RSS feeds.
 
 ## Pre-requisites
 * Docker (version 18.09.2 or higher)
@@ -7,9 +7,30 @@ Twitter bot for tweeting news articles from RSS feeds.
 ## Installation
 1. `docker build -f etc/docker/Dockerfile -t futuristick . --build-arg CRON=[CRONTAB]`  
 where `[CRONTAB]` is the crontab value to be used for scheduling. For example: `*/5 * * * *`
-2. `docker run -d --name futuristick-app futuristick`
+
+## Running
+1. `docker run -d --name futuristick-app futuristick`
 
 ## Configuration
-The bot can be configured via the `properties.json` file. As the script is executed on-demand via crontab, changes to the properties file will take effect on the subsequent run
-if the changes are made within the container. If changes are made outside of the container in the source files, then the image must be rebuilt and the container recreated as 
-described in the Installation step.
+The bot uses 2 configuration files: `config/properties.json` and `config/rss.json`. If you modify the configuration files
+within a docker container, then the changes are applied the next time that the bot is scheduled to be run.
+If you modify the source files outside of a container, then you need to rebuild the image and create a new container as described
+in the `Installation` and `Running` steps.
+
+### properties.json
+| Key | Description |
+|---|---|
+| `twitter` | Contains the Twitter API configuration |
+| `constant_tags` | List of constants hashtags that that are attached to each tweet |
+| `max_tags_per_post` | Maximum number of hashtags that can be attached to a tweet |
+| `use_default_tags` | If enabled, appends `default_tags` from `rss.json` to a tweet |
+| `max_post_count` | Maximum number of tweets that can be posted each time the bot runs |
+
+### rss.json
+| Key | Description |
+|---|---|
+| `url` | RSS feed link |
+| `default_tags` | List of default tags that can be appended to a tweet if `use_default_tags` property is enabled |
+
+## Logging
+Logs can 

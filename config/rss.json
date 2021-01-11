@@ -1,0 +1,13 @@
+{
+  "1": {
+    "url": "http://rss.feedspot.com/folder/2470230/rss",
+    "default_tags": [
+      "technology",
+      "news",
+      "innovation"
+    ]
+  },
+  "2":{
+    "url": "https://www.cnet.com/rss/news/"
+  }
+}

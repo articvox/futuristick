@@ -31,6 +31,3 @@ in the `Installation` and `Running` steps.
 |---|---|
 | `url` | RSS feed link |
 | `default_tags` | List of default tags that can be appended to a tweet if `use_default_tags` property is enabled |
-
-## Logging
-Logs can 

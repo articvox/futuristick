@@ -28,7 +28,7 @@ class KeywordCollector:
 
     @staticmethod
     def is_valid(keyword: str) -> bool:
-        return "'" not in keyword and len(keyword) < 20
+        return all(x not in keyword for x in ["'", ".", ","]) and len(keyword) < 20
 
     @staticmethod
     def from_article(url: str) -> List[str]:

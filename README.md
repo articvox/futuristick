@@ -31,3 +31,42 @@ in the `Installation` and `Running` steps.
 |---|---|
 | `url` | RSS feed link |
 | `default_tags` | List of default tags that can be appended to a tweet if `use_default_tags` property is enabled |
+
+## Common workflows
+
+### JSON configuration changes
+
+It is possible to modify the JSON configuration files within an existing container, 
+eliminating the need for rebuilding the image and recreating the container. To do this:
+1. `docker exec -it futuristick-app sh`
+2. `cd ./futuristick/config`
+3. `vi properties.json`
+4. Make the necessary changes using vim, and save the changes.
+5. `exit`
+
+The next time the script is scheduled to run, the updated parameters will be used.
+
+### Scheduling changes
+
+The scheduled script execution within the container is done by using crontab. You can modify the
+crontab by entering the container:
+1. `docker exec -it futuristick-app sh`
+2. `crontab -e`
+3. Make changes to the crontab in vim as necessary and save.
+4. `exit`
+
+### Modifying source files
+
+Changes within the container are lost if you need to rebuild the container. Therefore to make 
+sure that important changes persist, it may be necessary to modify the actual source files. Once 
+you have made the necessary changes you can rebuild the image and recreate the container:
+1. `docker stop futuristick-app`
+2. `docker rm -v futuristick-app`
+3. `docker build -f etc/docker/Dockerfile -t futuristick . --build-arg CRON=[CRONTAB]`  
+4. `docker run -d --name futuristick-app futuristick`
+
+## Logging
+
+The script logs all information to standard output, which can be accessed by:
+1. `docker logs -f futuristick-app`
+2. `Ctrl + C`

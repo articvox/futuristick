@@ -8,6 +8,10 @@
     ]
   },
   "2":{
-    "url": "https://www.cnet.com/rss/news/"
+    "url": "https://www.cnet.com/rss/news/",
+    "default_tags": [
+      "CNN",
+      "news"
+    ]
   }
 }

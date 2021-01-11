@@ -10,29 +10,34 @@ from twitter.tweet import Tweet
 from twitter.twitterservice import TwitterService
 
 
+def is_max_post_count() -> bool:
+    if counter.count >= app_config['max_post_count']:
+        logging.info(f'Max post count achieved ({counter.count}).')
+        return True
+    return False
+
+
 def run() -> None:
     logging.info('Checking RSS feeds...')
-    counter = Counter()
 
     for key, rss_config in ConfigurationLoader('config/rss.json').get().items():
-        if counter.count >= app_config['max_post_count']:
+        if is_max_post_count():
             break
-        logging.info(f'Feed: {key}')
 
+        logging.info(f'Feed: {key}')
         rss_items = (RssItemCollector(rss_config['url'])
                      .collect()
                      .get_items())
 
         for rss_item in rss_items:
-            if counter.count >= app_config['max_post_count']:
-                logging.info(f'Max post count achieved ({counter.count}). Stopping...')
+            if is_max_post_count():
                 break
 
             if not Check.is_posted(rss_item.title):
                 hashtags = app_config['constant_tags'] + rss_item.keywords
 
-                if app_config['use_default_tags'] and rss_item['default_tags']:
-                    hashtags += rss_item['default_tags']
+                if app_config['use_default_tags'] and 'default_tags' in rss_config:
+                    hashtags += rss_config['default_tags']
 
                 tweet = Tweet(
                     rss_item.title,
@@ -62,5 +67,6 @@ if __name__ == '__main__':
 
     app_config = ConfigurationLoader('config/properties.json').get()
     twitter = TwitterService(app_config['twitter'])
+    counter = Counter()
 
     run()

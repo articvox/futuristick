@@ -1,9 +1,9 @@
 {
   "twitter": {
-    "consumer_key": "iKdtq47x8GbXyw1OekMCQI1KJ",
-    "consumer_secret": "buvZjYzFhGWs5wbiBg1OJGYbC9MGlxoJ2r8a7im8HB2vtxtZOq",
-    "access_token": "1277117510446448641-BZ2nNL3bqabR24nRbkzQ6KEHX7J7df",
-    "access_token_secret": "9qpEBbnZsGJqtPdsBNsPZR3KekLunB5uy7JubpRV5oxxG",
+    "consumer_key": "",
+    "consumer_secret": "",
+    "access_token": "",
+    "access_token_secret": "",
     "max_content_length": 280
   },
   "constant_tags": [
@@ -12,6 +12,6 @@
     "politics"
   ],
   "max_tags_per_post": 5,
-  "use_default_tags": false,
+  "use_default_tags": true,
   "max_post_count": 3
 }
